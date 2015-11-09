@@ -31,3 +31,32 @@ for(file in files_list)
     }
     i<-i+1
 }
+i<-1
+  
+for(file in files_list)
+{
+  dataset<-read.table(text=readLines(file)[-1],header=FALSE,sep=",")
+  ratings<-dataset[,c(2)]
+    number<-length(ratings)
+    user_id<-dataset[,c(1)]
+if (i=1)
+user_id_summary<-c()
+initia<-data.frame(movie_id=double(),rating=integer(),data_rating=double())
+user_summary<-data.frame(user_id=double(),user_info=initia)
+for (j in 1:number)
+  if(is.element(user_id[j],user_id_summary))
+  {
+  temp1<-dataframe(movie_id=i,rating=dataset[j,2],data_rating=as.numeric(substr(dataset[j,3])))
+  user_summary$user_info[user_summary$user_id==user_id[j]]<
+  -rbind(user_summary$user_info[user_summary$user_id==user_id[j]],temp1)
+  }
+    
+    else
+{
+  append(user_id_summary,user_id[j])
+  temp2<-data.frame(movie_id=i,rating=dataset[j,2],data_rating=as.numeric(substr(dataset[j,3])))
+  temp3<-data.frame(user_id=user_id[j],user_info=temp2)
+  user_summary=rbind(user_summary,temp3)
+
+}
+}
